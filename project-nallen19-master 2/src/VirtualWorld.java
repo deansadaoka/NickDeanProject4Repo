@@ -35,9 +35,6 @@ public final class VirtualWorld extends PApplet
 
     public static double timeScale = 1.0;
 
-    public static final int VIEWPORT_ROWS = 15;
-    public static final int VIEWPORT_COLS = 20;
-
     private int xOffset = 0;
     private int yOffset = 0;
     private int col = 0;
@@ -101,7 +98,7 @@ public final class VirtualWorld extends PApplet
                     break;
                 case DOWN:
                     dy = 1;
-                    if (row < world.getNumRows() - VIEWPORT_ROWS) {
+                    if (row < world.getNumRows() - VIEW_ROWS) {
                         yOffset += 1;
                         row++;
                     }
@@ -115,7 +112,7 @@ public final class VirtualWorld extends PApplet
                     break;
                 case RIGHT:
                     dx = 1;
-                    if (col < world.getNumCols() - VIEWPORT_COLS) {
+                    if (col < world.getNumCols() - VIEW_COLS) {
                         xOffset += 1;
                         col++;
                     }
@@ -191,11 +188,16 @@ public final class VirtualWorld extends PApplet
 
     public void mousePressed() {
         Point pressed = mouseToPoint(mouseX, mouseY);
-        world.setBackgroundCell(pressed, new RainbowBackground("rainbowbackground",
-                imageStore.getImageList("rainbowbackground")));
-    //add code here to do/create what you need to around or at that point
-
+        if (!(world.isOccupied(pressed))) {
+            world.setBackgroundCell(pressed, new RainbowBackground("rainbowbackground",
+                    imageStore.getImageList("rainbowbackground")));
+            Leprechaun newLeprechaun = new Leprechaun("leprechaun", pressed, imageStore.getImageList("leprechaun"), 5000, 100);
+            world.addEntity(newLeprechaun);
+            scheduler.scheduleActions(newLeprechaun, world, imageStore);
+        }
     }
+
+    //add code here to do/create what you need to around or at that point
 
     private Point mouseToPoint(int x, int y) {
         System.out.println((x/TILE_WIDTH) + xOffset);
