@@ -35,6 +35,9 @@ public final class VirtualWorld extends PApplet
 
     public static double timeScale = 1.0;
 
+    private int xOffeset = 0;
+    private int yOffset = 0;
+
     public ImageStore imageStore;
     public WorldModel world;
     public WorldView view;
@@ -85,15 +88,19 @@ public final class VirtualWorld extends PApplet
             switch (keyCode) {
                 case UP:
                     dy = -1;
+                    yOffset -= 1;
                     break;
                 case DOWN:
                     dy = 1;
+                    yOffset += 1;
                     break;
                 case LEFT:
                     dx = -1;
+                    xOffeset -= 1;
                     break;
                 case RIGHT:
                     dx = 1;
+                    xOffeset += 1;
                     break;
             }
             view.shiftView(dx, dy);
@@ -169,9 +176,12 @@ public final class VirtualWorld extends PApplet
         world.setBackgroundCell(pressed, new RainbowBackground("rainbowbackground",
                 imageStore.getImageList("rainbowbackground")));
     //add code here to do/create what you need to around or at that point
+
     }
 
-    private Point mouseToPoint(int x, int y) { return new Point(mouseX/TILE_WIDTH, mouseY/TILE_HEIGHT); }
+    private Point mouseToPoint(int x, int y) {
+        System.out.println((x/TILE_WIDTH) + xOffeset);
+        return new Point((x/TILE_WIDTH) + xOffeset, (y/TILE_HEIGHT) + yOffset); }
 
     public static void main(String[] args) {
         parseCommandLine(args);
