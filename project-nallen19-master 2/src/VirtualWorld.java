@@ -35,8 +35,14 @@ public final class VirtualWorld extends PApplet
 
     public static double timeScale = 1.0;
 
-    private int xOffeset = 0;
+    public static final int VIEWPORT_ROWS = 15;
+    public static final int VIEWPORT_COLS = 20;
+
+    private int xOffset = 0;
     private int yOffset = 0;
+    private int col = 0;
+    private int row = 0;
+
 
     public ImageStore imageStore;
     public WorldModel world;
@@ -88,19 +94,31 @@ public final class VirtualWorld extends PApplet
             switch (keyCode) {
                 case UP:
                     dy = -1;
-                    yOffset -= 1;
+                    if (row > 0) {
+                        yOffset -= 1;
+                        row--;
+                    }
                     break;
                 case DOWN:
                     dy = 1;
-                    yOffset += 1;
+                    if (row < world.getNumRows() - VIEWPORT_ROWS) {
+                        yOffset += 1;
+                        row++;
+                    }
                     break;
                 case LEFT:
                     dx = -1;
-                    xOffeset -= 1;
+                    if (col > 0) {
+                        xOffset -= 1;
+                        col--;
+                    }
                     break;
                 case RIGHT:
                     dx = 1;
-                    xOffeset += 1;
+                    if (col < world.getNumCols() - VIEWPORT_COLS) {
+                        xOffset += 1;
+                        col++;
+                    }
                     break;
             }
             view.shiftView(dx, dy);
@@ -180,8 +198,8 @@ public final class VirtualWorld extends PApplet
     }
 
     private Point mouseToPoint(int x, int y) {
-        System.out.println((x/TILE_WIDTH) + xOffeset);
-        return new Point((x/TILE_WIDTH) + xOffeset, (y/TILE_HEIGHT) + yOffset); }
+        System.out.println((x/TILE_WIDTH) + xOffset);
+        return new Point((x/TILE_WIDTH) + xOffset, (y/TILE_HEIGHT) + yOffset); }
 
     public static void main(String[] args) {
         parseCommandLine(args);
