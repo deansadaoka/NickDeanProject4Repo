@@ -26,15 +26,14 @@ public class Leprechaun extends MoveEntity{
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler) {
-//        Optional<Entity> target =
-//                world.findNearest(getPosition(), GoldOre.class);
-//
-//        if (!target.isPresent() || !moveTo(world,
-//                target.get(), scheduler)) {
-//            scheduler.scheduleEvent(this,
-//                    new Activity(this, world, imageStore),
-//                    getActionPeriod());
-//        }
+        Optional<Entity> target =
+                world.findNearest(getPosition(), Ore.class);
+        if (!target.isPresent() || !moveTo(world,
+                target.get(), scheduler)) {
+            scheduler.scheduleEvent(this,
+                    new Activity(this, world, imageStore),
+                    getActionPeriod());
+        }
     }
 
     protected Point nextPosition(

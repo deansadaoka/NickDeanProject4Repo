@@ -188,19 +188,18 @@ public final class VirtualWorld extends PApplet
 
     public void mousePressed() {
         Point pressed = mouseToPoint(mouseX, mouseY);
+        Leprechaun newLeprechaun = new Leprechaun("leprechaun", pressed, imageStore.getImageList("leprechaun"), 500, 6);
         if (!(world.isOccupied(pressed))) {
-            world.setBackgroundCell(pressed, new RainbowBackground("rainbowbackground",
-                    imageStore.getImageList("rainbowbackground")));
-            Leprechaun newLeprechaun = new Leprechaun("leprechaun", pressed, imageStore.getImageList("leprechaun"), 5000, 100);
             world.addEntity(newLeprechaun);
             scheduler.scheduleActions(newLeprechaun, world, imageStore);
+            world.setBackgroundCell(pressed, new RainbowBackground("rainbowbackground",
+                    imageStore.getImageList("rainbowbackground")));
         }
     }
 
     //add code here to do/create what you need to around or at that point
 
     private Point mouseToPoint(int x, int y) {
-        System.out.println((x/TILE_WIDTH) + xOffset);
         return new Point((x/TILE_WIDTH) + xOffset, (y/TILE_HEIGHT) + yOffset); }
 
     public static void main(String[] args) {
