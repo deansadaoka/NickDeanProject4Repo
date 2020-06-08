@@ -12,6 +12,7 @@ public class Vein extends ActiveEntity {
     public static final int ORE_CORRUPT_MAX = 30000;
 
     public static final String ORE_KEY = "ore";
+    public static final int GOLD_ACTION_PERIOD = 6;
 
     public Vein(
             String id,
@@ -41,5 +42,19 @@ public class Vein extends ActiveEntity {
         scheduler.scheduleEvent(this,
                 new Activity (this, world, imageStore),
                 getActionPeriod());
+    }
+
+    public void transformGold(
+            WorldModel world,
+            EventScheduler scheduler,
+            ImageStore imageStore) {
+        GoldVein goldOre = new GoldVein("goldore", getPosition(),
+                    imageStore.getImageList("goldore"), GOLD_ACTION_PERIOD);
+
+        world.removeEntity(this);
+        scheduler.unscheduleAllEvents(this);
+
+        world.addEntity(goldOre);
+        scheduler.scheduleActions(goldOre, world, imageStore);
     }
 }

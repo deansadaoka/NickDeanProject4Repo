@@ -124,6 +124,8 @@ public final class WorldModel
                     return parseSmith(properties, imageStore);
                 case VEIN_KEY:
                     return parseVein(properties, imageStore);
+//                case "leprechaun":
+//                    return parseLeprechaun(properties, imageStore);
             }
         }
 
@@ -154,12 +156,28 @@ public final class WorldModel
                             properties[MINER_LIMIT]), 0,
                     Integer.parseInt(
                             properties[MINER_ACTION_PERIOD]), Integer.parseInt(
-                            properties[MINER_ANIMATION_PERIOD]));
+                    properties[MINER_ANIMATION_PERIOD]));
             tryAddEntity(entity);
         }
 
         return properties.length == MINER_NUM_PROPERTIES;
     }
+
+//    public boolean parseLeprechaun(String[] properties, ImageStore imageStore)
+//    {
+//        if (properties.length == 6) {
+//            Point pt = new Point(Integer.parseInt(properties[2]),
+//                    Integer.parseInt(properties[3]));
+//            Entity entity = new Leprechaun(properties[1], pt,
+//                    imageStore.getImageList("leprechaun"),
+//                    Integer.parseInt(
+//                            properties[5]), Integer.parseInt(
+//                    properties[6]));
+//            tryAddEntity(entity);
+//        }
+//
+//        return properties.length == 6;
+//    }
 
     public boolean parseObstacle(String[] properties, ImageStore imageStore)
     {

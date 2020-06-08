@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.Optional;
 
 import processing.core.*;
 
@@ -35,6 +36,12 @@ public final class VirtualWorld extends PApplet
 
     public static double timeScale = 1.0;
 
+    private int xOffset = 0;
+    private int yOffset = 0;
+    private int col = 0;
+    private int row = 0;
+
+
     public ImageStore imageStore;
     public WorldModel world;
     public WorldView view;
@@ -52,11 +59,11 @@ public final class VirtualWorld extends PApplet
     public void setup() {
         this.imageStore = new ImageStore(
                 createImageColored(TILE_WIDTH, TILE_HEIGHT,
-                                   DEFAULT_IMAGE_COLOR));
+                        DEFAULT_IMAGE_COLOR));
         this.world = new WorldModel(WORLD_ROWS, WORLD_COLS,
-                                    createDefaultBackground(imageStore));
+                createDefaultBackground(imageStore));
         this.view = new WorldView(VIEW_ROWS, VIEW_COLS, this, world, TILE_WIDTH,
-                                  TILE_HEIGHT);
+                TILE_HEIGHT);
         this.scheduler = new EventScheduler(timeScale);
 
         loadImages(IMAGE_LIST_FILE_NAME, imageStore, this);
@@ -85,15 +92,31 @@ public final class VirtualWorld extends PApplet
             switch (keyCode) {
                 case UP:
                     dy = -1;
+                    if (row > 0) {
+                        yOffset -= 1;
+                        row--;
+                    }
                     break;
                 case DOWN:
                     dy = 1;
+                    if (row < world.getNumRows() - VIEW_ROWS) {
+                        yOffset += 1;
+                        row++;
+                    }
                     break;
                 case LEFT:
                     dx = -1;
+                    if (col > 0) {
+                        xOffset -= 1;
+                        col--;
+                    }
                     break;
                 case RIGHT:
                     dx = 1;
+                    if (col < world.getNumCols() - VIEW_COLS) {
+                        xOffset += 1;
+                        col++;
+                    }
                     break;
             }
             view.shiftView(dx, dy);
@@ -102,7 +125,7 @@ public final class VirtualWorld extends PApplet
 
     public static Background createDefaultBackground(ImageStore imageStore) {
         return new Background(DEFAULT_IMAGE_NAME,
-                              imageStore.getImageList(DEFAULT_IMAGE_NAME));
+                imageStore.getImageList(DEFAULT_IMAGE_NAME));
     }
 
     public static PImage createImageColored(int width, int height, int color) {
@@ -163,6 +186,27 @@ public final class VirtualWorld extends PApplet
             }
         }
     }
+
+    public void mousePressed() {
+        Point pressed = mouseToPoint(mouseX, mouseY);
+        Leprechaun newLeprechaun = new Leprechaun("leprechaun", pressed, imageStore.getImageList("leprechaun"), 500, 6);
+        if (!(world.isOccupied(pressed))) {
+            world.addEntity(newLeprechaun);
+            scheduler.scheduleActions(newLeprechaun, world, imageStore);
+            world.setBackgroundCell(pressed, new RainbowBackground("rainbowbackground",
+                    imageStore.getImageList("rainbowbackground")));
+            Optional<Entity> vein = world.findNearest(pressed, Vein.class);
+            if (vein.isPresent()) {
+                Vein v = (Vein) vein.get();
+                v.transformGold(world, scheduler, imageStore);
+            }
+        }
+    }
+
+    //add code here to do/create what you need to around or at that point
+
+    private Point mouseToPoint(int x, int y) {
+        return new Point((x/TILE_WIDTH) + xOffset, (y/TILE_HEIGHT) + yOffset); }
 
     public static void main(String[] args) {
         parseCommandLine(args);

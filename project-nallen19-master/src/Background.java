@@ -2,7 +2,7 @@ import java.util.List;
 
 import processing.core.PImage;
 
-public final class Background
+public class Background
 {
     private String id;
     private List<PImage> images;
