@@ -5,6 +5,11 @@ import java.util.Optional;
 
 public abstract class MoveEntity extends AnimatedEntity
 {
+    public static final String QUAKE_KEY = "quake";
+    public static final String QUAKE_ID = "quake";
+    public static final int QUAKE_ACTION_PERIOD = 1100;
+    public static final int QUAKE_ANIMATION_PERIOD = 100;
+
     public MoveEntity(String id,
                       Point position,
                       List<PImage> images,

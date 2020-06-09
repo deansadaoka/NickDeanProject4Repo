@@ -4,10 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class OreBlob extends MoveEntity {
-    public static final String QUAKE_KEY = "quake";
-    public static final String QUAKE_ID = "quake";
-    public static final int QUAKE_ACTION_PERIOD = 1100;
-    public static final int QUAKE_ANIMATION_PERIOD = 100;
 
     public OreBlob(
             String id,

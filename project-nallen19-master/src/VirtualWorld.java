@@ -189,7 +189,10 @@ public final class VirtualWorld extends PApplet
 
     public void mousePressed() {
         Point pressed = mouseToPoint(mouseX, mouseY);
-        Leprechaun newLeprechaun = new Leprechaun("leprechaun", pressed, imageStore.getImageList("leprechaun"), 500, 6);
+        Leprechaun newLeprechaun = new Leprechaun("leprechaun", pressed,
+                imageStore.getImageList("leprechaun"), 6,
+                0,500, 6);
+
         if (!(world.isOccupied(pressed))) {
             world.addEntity(newLeprechaun);
             scheduler.scheduleActions(newLeprechaun, world, imageStore);

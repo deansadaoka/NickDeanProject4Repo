@@ -12,4 +12,12 @@ public class Gold extends Ore {
     {
         super(id, position, images, actionPeriod);
     }
+
+    public void executeActivity(
+            WorldModel world,
+            ImageStore imageStore,
+            EventScheduler scheduler) {
+        world.removeEntity(this);
+        scheduler.unscheduleAllEvents(this);
+    }
 }
