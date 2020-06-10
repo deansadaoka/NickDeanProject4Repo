@@ -33,17 +33,13 @@ public class Leprechaun extends MinerEntity {
         Optional<Entity> target =
                 world.findNearest(getPosition(), Gold.class);
 
-        if (!target.isPresent() || !moveTo(world,
-                target.get(), scheduler)) {
-            scheduler.scheduleEvent(this,
-                    new Activity(this, world, imageStore),
-                    getActionPeriod());
+        if (target.isPresent()) {
+            moveTo(world, target.get(), scheduler);
         }
 
         if (getResourceCount() >= getResourceLimit()) {
             Optional<Entity> lepTarget =
                     world.findNearest(getPosition(), GoldVein.class);
-            long nextPeriod = getActionPeriod();
             if (lepTarget.isPresent()) {
 
                 Point tgtPos = lepTarget.get().getPosition();
@@ -54,14 +50,11 @@ public class Leprechaun extends MinerEntity {
                             QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
 
                     world.addEntity(quake);
-                    nextPeriod += getActionPeriod();
                     scheduler.scheduleActions(quake, world, imageStore);
                 }
             }
-
-            scheduler.scheduleEvent(this,
-                    new Activity(this, world, imageStore),
-                    nextPeriod);
         }
+
+        scheduler.scheduleActions(this, world, imageStore);
     }
 }
