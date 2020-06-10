@@ -29,6 +29,7 @@ public class Leprechaun extends MinerEntity {
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler) {
+
         Optional<Entity> target =
                 world.findNearest(getPosition(), Gold.class);
 
