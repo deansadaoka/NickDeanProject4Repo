@@ -198,6 +198,15 @@ public final class VirtualWorld extends PApplet
             scheduler.scheduleActions(newLeprechaun, world, imageStore);
             world.setBackgroundCell(pressed, new RainbowBackground("rainbowbackground",
                     imageStore.getImageList("rainbowbackground")));
+
+            for (int i = pressed.getX() - 1; i < pressed.getX() + 2; i++) {
+                for (int j = pressed.getY() - 1; j < pressed.getY() + 2; j++) {
+                    if (world.withinBounds(new Point(i, j)) && !world.isOccupied(new Point(i, j)))
+                        world.setBackgroundCell(new Point(i, j), new GoldBackground("goldbackground",
+                                imageStore.getImageList("goldbackground")));
+                }
+            }
+
             Optional<Entity> vein = world.findNearest(pressed, Vein.class);
             if (vein.isPresent()) {
                 Vein v = (Vein) vein.get();

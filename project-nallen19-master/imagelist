@@ -29,7 +29,8 @@ rocks images/rock.bmp
 dirt images/dirt.bmp
 vein images/vein.bmp
 background_default images/none.bmp
-rainbowbackground images/rainbow.bmp
+rainbowbackground images/rainbow2.bmp 0 0 0 0
+goldbackground images/gold2.bmp 0 0 0 0
 goldore images/goldore.bmp
 gold images/gold.bmp
 leprechaun images/leprechaun1.bmp 255 255 255 0
